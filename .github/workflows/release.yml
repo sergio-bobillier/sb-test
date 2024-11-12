@@ -40,12 +40,8 @@ jobs:
         TARGET: ${{ github.ref_name }}
       run: |
         gh release create $TAG_NAME --notes "$NOTES" --title "$TITLE" --target $TARGET pkg/sb-test-*.gem
+    - name: Configure trusted publishing credentials
+      uses: rubygems/configure-rubygems-credentials@v1.0.0
     - name: Deploy
-      env:
-        RUBYGEMS_API_KEY: "${{secrets.RUBYGEMS_API_KEY}}"
       run: |
-        mkdir -p $HOME/.gem
-        touch $HOME/.gem/credentials
-        chmod 0600 $HOME/.gem/credentials
-        printf -- "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}\n" > $HOME/.gem/credentials
         gem push pkg/sb-test-*.gem
