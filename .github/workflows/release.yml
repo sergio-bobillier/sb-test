@@ -24,7 +24,7 @@ jobs:
       with:
         ruby-version: 2.7.7
     - name: Build
-      run:
+      run: |
         bundler install
         rake clobber
         rake build
